@@ -1,8 +1,9 @@
 ---
-# file: roles/galera/tasks/repos/Debian.yml
+# file: roles/galera/tasks/repos/Ubuntu.yml
 - name: Install MariaDB Galera repository (Debian)
   apt_repository:
-    repo='deb http://mariadb.mirror.iweb.com/repo/10.1/debian jessie main'
+    repo='deb http://mariadb.mirror.iweb.com/repo/10.1/ubuntu main main'
+    filename='mariadb'
     state=present
     update_cache=true
 - apt_key:
@@ -11,7 +12,8 @@
 
 - name: Install Percona repository (Debian)
   apt_repository:
-    repo='deb http://repo.percona.com/apt jessie main'
+    repo='deb http://repo.percona.com/apt trusty main'
+    filename='percona'
     state=present
     update_cache=true
 - apt_key:

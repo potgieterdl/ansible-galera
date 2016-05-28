@@ -1,8 +1,10 @@
 ---
 # file: roles/galera/tasks/install.yml
-- yum:
+- name: Looking for old mariadb-libs package (RedHat family)
+  yum:
     list=mariadb-libs-5.5*x86_64
   register: pkg
+  when: ansible_os_family == 'RedHat'
 
 - name: Removing old mariadb-libs package (RedHat family)
   package:
