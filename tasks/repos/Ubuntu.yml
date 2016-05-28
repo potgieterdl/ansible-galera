@@ -1,13 +1,20 @@
 ---
 # file: roles/galera/tasks/repos/Ubuntu.yml
+- name: Install MariaDB Galera repository key (Ubuntu)
+  apt_key:
+    keyserver=keyserver.ubuntu.com id=0xcbcb082a1bb943db
+    state=present
+
 - name: Install MariaDB Galera repository (Ubuntu)
   apt_repository:
     repo='deb http://mariadb.mirror.iweb.com/repo/10.1/ubuntu trusty main'
     filename='mariadb'
     state=present
     update_cache=true
-- apt_key:
-    keyserver=keyserver.ubuntu.com id=0xcbcb082a1bb943db
+
+- name: Install Percona repository key (Ubuntu)
+  apt_key:
+    keyserver=keys.gnupg.net id=1C4CBDCDCD2EFD2A
     state=present
 
 - name: Install Percona repository (Ubuntu)
@@ -16,6 +23,15 @@
     filename='percona'
     state=present
     update_cache=true
-- apt_key:
-    keyserver=keys.gnupg.net id=1C4CBDCDCD2EFD2A
+    
+- name: Install Firewalld repository key (Ubuntu)
+  apt_key:
+    keyserver=keyserver.ubuntu.com id=0x3943a444207a7a4e
     state=present
+
+- name: Install Firewalld repository (Ubuntu)
+  apt_repository:
+    repo='deb http://ppa.launchpad.net/makinacorpus/firewalld/ubuntu trusty main'
+    filename='firewalld'
+    state=present
+    update_cache=true

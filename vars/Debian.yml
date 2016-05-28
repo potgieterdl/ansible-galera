@@ -7,6 +7,7 @@ galera_packages:
   - python-mysqldb
   - percona-toolkit
   - xinetd
+  - firewalld
 mariadb_svc_name: mysql
 mariadb_config: mysql/conf.d/galera.cnf
 galera_provider: /usr/lib/galera/libgalera_smm.so
