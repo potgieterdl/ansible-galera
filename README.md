@@ -11,6 +11,7 @@ Supported distributions:
 - CentOS 7.x
 - RedHat EL 7.x
 - Debian 8.x
+- Ubuntu 14.04
 
 Supported functionalities:
 
@@ -84,7 +85,7 @@ galera_provider: /usr/lib64/galera/libgalera_smm.so
 percona_package: https://www.percona.com/redir/downloads/percona-release/redhat/latest/percona-release-0.1-3.noarch.rpm
 ```
 ```
-### DEBIAN
+### DEBIAN & UBUNTU
 # file: roles/galera/vars/Debian.yml
 galera_packages:
   - mariadb-server
