@@ -1,5 +1,17 @@
 ---
 # file: roles/galera/tasks/configurations/Debian.yml
+- name: Set root password for localhost (Debian family)
+  mysql_user:
+    name=root
+    password="{{ mariadb_root_password }}"
+    host={{ item }}
+    state=present
+    with_items:
+      - "{{ ansible_fqdn }}"
+      - 127.0.0.1
+      - localhost
+  when: inventory_hostname == master
+
 - name: Configuring root access for Ansible (Debian family)
   file:
     src=/etc/mysql/debian.cnf
@@ -7,21 +19,22 @@
     state=link
     force=yes
 
-- name: Set root password for localhost (Debian family)
+- name: Set debian-sys-maint password for localhost (Debian family)
   mysql_user:
-    name=root
-    password={{ mariadb_root_password }}
+    name="debian-sys-maint"
+    password="{{ mariadb_maintenance_password }}"
     host=localhost
     state=present
   when: inventory_hostname == master
 
-- name: Set debian-sys-maint password for localhost (Debian family)
-  mysql_user:
-    name=debian-sys-maint
-    password={{ mariadb_maintenance_password }}
-    host=localhost
-    state=present
-  when: inventory_hostname == master
+# Note: We doubl update the password, as it seems on ubuntu and maridb 10.1.14 
+# it doesnt work correctly with above command
+- name: Update MySQL debian-sys-maint password for localhost account.
+  shell: >
+    mysql -u root -NBe
+    'SET PASSWORD FOR "debian-sys-maint"@"localhost" = PASSWORD("{{ mariadb_maintenance_password }}");'
+  with_items: "{{ mysql_root_hosts.stdout_lines }}"
+  when: inventory_hostname == master  
 
 - name: Removing old /root/.my.cnf file (Debian family)
   file:
